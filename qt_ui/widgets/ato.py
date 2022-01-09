@@ -351,8 +351,8 @@ class QPackagePanel(QGroupBox):
         for sort_type in self.sort_types:
             self.sort_combo_box.addItem(sort_type, sort_type)
         self.sort_combo_box.currentTextChanged.connect(self._on_sort_type_changed)
-        self.top_row.addWidget(self.tip)
         self.top_row.addWidget(self.sort_combo_box)
+        self.top_row.addWidget(self.tip)
         self.vbox.addLayout(self.top_row)
 
         self.package_list = QPackageList(self.ato_model)
