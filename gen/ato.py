@@ -140,6 +140,24 @@ class Package:
             return max(times)
         return None
 
+    @property
+    def earliest_takeoff_time(self) -> timedelta:
+        times = []
+        for flight in self.flights:
+            times.append(TotEstimator.mission_start_time(flight))
+        if times:
+            return min(times)
+        return timedelta()
+
+    @property
+    def latest_landing_time(self) -> timedelta:
+        times = []
+        for flight in self.flights:
+            times.append(flight.flight_plan.landing_time())
+        if times:
+            return max(times)
+        return timedelta()
+
     def set_tot_asap(self) -> None:
         self.time_over_target = TotEstimator(self).earliest_tot()
 

@@ -250,7 +250,7 @@ class PackageDelegate(TwoColumnRowDelegate):
             clients = self.num_clients(index)
             return f"Player Slots: {clients}" if clients else ""
         elif (row, column) == (1, 0):
-            return f"TOT T+{package.time_over_target}"
+            return f"TOT T+{package.time_over_target}  START T+{package.earliest_takeoff_time}  LAND T+{package.latest_landing_time}"
         elif (row, column) == (1, 1):
             unassigned_pilots = self.missing_pilots(index)
             return f"Missing pilots: {unassigned_pilots}" if unassigned_pilots else ""

@@ -133,6 +133,20 @@ class FlightPlan:
         raise NotImplementedError
 
     @property
+    def landing_waypoint(self) -> Optional[FlightWaypoint]:
+        for wp in self.iter_waypoints():
+            if wp.waypoint_type == FlightWaypointType.LANDING_POINT:
+                return wp
+        return None
+
+    @property
+    def takeoff_waypoint(self) -> Optional[FlightWaypoint]:
+        for wp in self.iter_waypoints():
+            if wp.waypoint_type == FlightWaypointType.TAKEOFF:
+                return wp
+        return None
+
+    @property
     def tot(self) -> timedelta:
         return self.package.time_over_target + self.tot_offset
 
@@ -239,6 +253,18 @@ class FlightPlan:
         if tot_waypoint is None:
             return None
         return self.tot - self._travel_time_to_waypoint(tot_waypoint)
+
+    def landing_time(self) -> Optional[timedelta]:
+        tot_waypoint = self.tot_waypoint
+        if tot_waypoint is None:
+            return None
+        landing_waypoint = self.landing_waypoint
+        if landing_waypoint is None:
+            return None
+        time = self.tot + self.travel_time_between_waypoints(
+            tot_waypoint, self.landing_waypoint
+        )
+        return timedelta(seconds=math.floor(time.total_seconds()))
 
     def startup_time(self) -> Optional[timedelta]:
         takeoff_time = self.takeoff_time()
