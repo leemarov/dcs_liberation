@@ -153,7 +153,9 @@ class Package:
     def latest_landing_time(self) -> timedelta:
         times = []
         for flight in self.flights:
-            times.append(flight.flight_plan.landing_time())
+            landing_time = flight.flight_plan.landing_time()
+            if landing_time is not None:
+                times.append(landing_time)
         if times:
             return max(times)
         return timedelta()

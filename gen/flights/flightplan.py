@@ -262,7 +262,7 @@ class FlightPlan:
         if landing_waypoint is None:
             return None
         time = self.tot + self.travel_time_between_waypoints(
-            tot_waypoint, self.landing_waypoint
+            tot_waypoint, landing_waypoint
         )
         return timedelta(seconds=math.floor(time.total_seconds()))
 
