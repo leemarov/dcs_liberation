@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import datetime
 from typing import Any, Callable, Iterator, Optional, TypeVar
+from functools import cached_property
 
 from PySide2.QtCore import (
     QAbstractListModel,
@@ -221,6 +222,7 @@ class AtoModel(QAbstractListModel):
         self.game_model = game_model
         self.ato = ato
         self.package_models = DeletableChildModelManager(PackageModel, game_model)
+        self.sort_type = "TOT"
 
     @property
     def game(self) -> Optional[Game]:
@@ -232,15 +234,34 @@ class AtoModel(QAbstractListModel):
     def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
         if not index.isValid():
             return None
-        package = self.ato.packages[index.row()]
+        package = self.sorted_packages[index.row()]
         if role == Qt.DisplayRole:
             return f"{package.package_description} {package.target.name}"
         elif role == AtoModel.PackageRole:
             return package
         return None
 
+    @cached_property
+    def sorted_packages(self) -> List[Package]:
+        if self.sort_type == "TOT":
+            return self.ato.packages
+        if self.sort_type == "Startup":
+            return sorted(self.ato.packages, key=lambda p: p.earliest_takeoff_time)
+        if self.sort_type == "Landing":
+            return sorted(self.ato.packages, key=lambda p: p.latest_landing_time)
+        elif self.sort_type == "Type":
+            return sorted(self.ato.packages, key=lambda p: p.priority)
+
+    def set_sort_type(self, sort_type: String):
+        self._clear_cached_packages()
+        self.sort_type = sort_type
+
+    def _clear_cached_packages(self):
+        self.__dict__.pop("sorted_packages", None)
+
     def add_package(self, package: Package) -> None:
         """Adds a package to the ATO."""
+        self._clear_cached_packages()
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self.ato.add_package(package)
         self.endInsertRows()
@@ -255,6 +276,7 @@ class AtoModel(QAbstractListModel):
 
     def delete_package(self, package: Package) -> None:
         """Removes the given package from the ATO."""
+        self._clear_cached_packages()
         self.package_models.release(package)
         index = self.ato.packages.index(package)
         self.beginRemoveRows(QModelIndex(), index, index)
@@ -279,6 +301,7 @@ class AtoModel(QAbstractListModel):
         If the game is None (as is the case when no game has been loaded), an
         empty ATO will be used.
         """
+        self._clear_cached_packages()
         self.beginResetModel()
         self.package_models.clear()
         if self.game is not None:
@@ -291,6 +314,7 @@ class AtoModel(QAbstractListModel):
         self.endResetModel()
         # noinspection PyUnresolvedReferences
         self.client_slots_changed.emit()
+        self.packages_changed.emit()
 
     def get_package_model(self, index: QModelIndex) -> PackageModel:
         """Returns a model for the package at the given index."""

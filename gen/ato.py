@@ -190,7 +190,19 @@ class Package:
         # flight with strike and SEAD is an OCA/Strike package. This list defines the
         # priority order for package task names. The package's primary task will be the
         # first task in this list that matches a flight in the package.
-        tasks_by_priority = [
+        for task in self.tasks_by_priority:
+            if flight_counts[task]:
+                return task
+
+        # If we get here, our task_priorities list above is incomplete. Log the
+        # issue and return the type of *any* flight in the package.
+        some_mission = next(iter(self.flights)).flight_type
+        logging.warning(f"Unhandled mission type: {some_mission}")
+        return some_mission
+
+    @property
+    def tasks_by_priority(self) -> List[FlightType]:
+        return [
             FlightType.CAS,
             FlightType.STRIKE,
             FlightType.ANTISHIP,
@@ -208,15 +220,13 @@ class Package:
             FlightType.SWEEP,
             FlightType.ESCORT,
         ]
-        for task in tasks_by_priority:
-            if flight_counts[task]:
-                return task
 
-        # If we get here, our task_priorities list above is incomplete. Log the
-        # issue and return the type of *any* flight in the package.
-        some_mission = next(iter(self.flights)).flight_type
-        logging.warning(f"Unhandled mission type: {some_mission}")
-        return some_mission
+    @property
+    def priority(self) -> int:
+        primary_task = self.primary_task
+        if primary_task is None:
+            return len(self.tasks_by_priority)
+        return self.tasks_by_priority.index(primary_task)
 
     @property
     def package_description(self) -> str:

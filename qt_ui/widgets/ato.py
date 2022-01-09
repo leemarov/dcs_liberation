@@ -22,6 +22,7 @@ from PySide2.QtWidgets import (
     QPushButton,
     QSplitter,
     QVBoxLayout,
+    QComboBox,
 )
 
 from gen.ato import Package
@@ -339,12 +340,20 @@ class QPackagePanel(QGroupBox):
         self.vbox = QVBoxLayout()
         self.setLayout(self.vbox)
 
+        self.top_row = QHBoxLayout()
         self.tip = QLabel(
             "To create a new package, right click the mission target on the "
             "map. To target airbase objectives, use\n"
             "the attack button in the airbase view."
         )
-        self.vbox.addWidget(self.tip)
+        self.sort_types = ["TOT", "Startup", "Landing", "Type"]
+        self.sort_combo_box = QComboBox()
+        for sort_type in self.sort_types:
+            self.sort_combo_box.addItem(sort_type, sort_type)
+        self.sort_combo_box.currentTextChanged.connect(self._on_sort_type_changed)
+        self.top_row.addWidget(self.tip)
+        self.top_row.addWidget(self.sort_combo_box)
+        self.vbox.addLayout(self.top_row)
 
         self.package_list = QPackageList(self.ato_model)
         self.vbox.addWidget(self.package_list)
@@ -364,6 +373,10 @@ class QPackagePanel(QGroupBox):
 
         self.current_changed.connect(self.on_current_changed)
         self.on_current_changed()
+
+    def _on_sort_type_changed(self):
+        sort_type = self.sort_combo_box.currentData()
+        self.ato_model.set_sort_type(sort_type)
 
     @property
     def current_changed(self):
