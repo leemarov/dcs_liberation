@@ -491,7 +491,11 @@ class Game:
 
         packages = itertools.chain(self.blue.ato.packages, self.red.ato.packages)
         for package in packages:
-            if package.primary_task is FlightType.BARCAP:
+            if package.primary_task in [
+                FlightType.BARCAP,
+                FlightType.REFUELING,
+                FlightType.AEWC,
+            ]:
                 # BARCAPs will be planned at most locations on smaller theaters,
                 # rendering culling fairly useless. BARCAP packages don't really
                 # need the ground detail since they're defensive. SAMs nearby
