@@ -24,10 +24,25 @@ class QGeneralFlightSettingsTab(QFrame):
         layout = QGridLayout()
         layout.addWidget(QFlightTypeTaskInfo(flight), 0, 0)
         layout.addWidget(FlightAirfieldDisplay(game, package_model, flight), 1, 0)
-        layout.addWidget(QFlightSlotEditor(package_model, flight, game), 2, 0)
-        layout.addWidget(QFlightStartType(package_model, flight), 3, 0)
+        self.slot_editor = QFlightSlotEditor(package_model, flight, game)
+        self.has_players = self.slot_editor.roster_editor.has_any_players
+        self.slot_editor.roster_editor.has_players.connect(self.on_roster_has_players)
+        layout.addWidget(self.slot_editor, 2, 0)
+        self.start_type = QFlightStartType(package_model, flight)
+        layout.addWidget(self.start_type, 3, 0)
         layout.addWidget(QFlightCustomName(flight), 4, 0)
         vstretch = QVBoxLayout()
         vstretch.addStretch()
         layout.addLayout(vstretch, 5, 0)
         self.setLayout(layout)
+
+    def on_roster_has_players(self, p_bool: bool) -> None:
+        self.set_has_players(p_bool)
+
+    def set_has_players(self, p_bool: bool) -> None:
+        if self.has_players != p_bool:
+            self.has_players = p_bool
+            if self.has_players:
+                self.start_type.select_start_type("Warm")
+            else:
+                self.start_type.select_start_type("Cold")

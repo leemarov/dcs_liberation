@@ -81,6 +81,9 @@ class PilotSelector(QComboBox):
 
 
 class PilotControls(QHBoxLayout):
+    player_set = Signal()
+    player_unset = Signal()
+
     def __init__(self, roster: Optional[FlightRoster], idx: int) -> None:
         super().__init__()
         self.roster = roster
@@ -109,6 +112,10 @@ class PilotControls(QHBoxLayout):
             logging.error("Cannot toggle state of a pilot when none is selected")
             return
         pilot.player = checked
+        if checked:
+            self.player_set.emit()
+        else:
+            self.player_unset.emit()
 
     def on_pilot_changed(self, index: int) -> None:
         pilot = self.selector.itemData(index)
@@ -147,6 +154,8 @@ class PilotControls(QHBoxLayout):
 class FlightRosterEditor(QVBoxLayout):
     MAX_PILOTS = 4
 
+    has_players = Signal(bool)
+
     def __init__(self, roster: Optional[FlightRoster]) -> None:
         super().__init__()
         self.roster = roster
@@ -166,6 +175,19 @@ class FlightRosterEditor(QVBoxLayout):
             )
             self.pilot_controls.append(controls)
             self.addLayout(controls)
+            controls.player_set.connect(self.player_set)
+            controls.player_unset.connect(self.player_set)
+
+    def player_set(self) -> None:
+        self.has_players.emit(self.has_any_players)
+
+    @property
+    def has_any_players(self) -> bool:
+        for control in self.pilot_controls:
+            pilot = control.pilot
+            if control.pilot is not None and control.pilot.player:
+                return True
+        return False
 
     def update_available_pilots(self, source_idx: int) -> None:
         for idx, controls in enumerate(self.pilot_controls):

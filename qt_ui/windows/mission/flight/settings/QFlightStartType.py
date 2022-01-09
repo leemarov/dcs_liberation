@@ -21,7 +21,9 @@ class QFlightStartType(QGroupBox):
         self.start_type_label = QLabel("Start type:")
         self.start_type = QComboBox()
 
-        for i, st in enumerate([b for b in ["Cold", "Warm", "Runway", "In Flight"]]):
+        self.start_types = ["Cold", "Warm", "Runway", "In Flight"]
+
+        for i, st in enumerate([b for b in self.start_types]):
             self.start_type.addItem(st, st)
             if flight.start_type == st:
                 self.start_type.setCurrentIndex(i)
@@ -43,3 +45,8 @@ class QFlightStartType(QGroupBox):
         selected = self.start_type.currentData()
         self.flight.start_type = selected
         self.package_model.update_tot()
+
+    def select_start_type(self, p_type: str) -> None:
+        index = self.start_types.index(p_type)
+        self.start_type.setCurrentIndex(index)
+        self._on_start_type_selected()
