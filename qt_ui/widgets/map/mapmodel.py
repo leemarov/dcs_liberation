@@ -491,6 +491,8 @@ class WaypointJs(QObject):
 
     @Property(str, notify=timingChanged)
     def timing(self) -> str:
+        if self.flight_plan.package.formation_speed is None:
+            return ""
         prefix = "TOT"
         time = self.flight_plan.tot_for_waypoint(self.waypoint)
         if time is None:
