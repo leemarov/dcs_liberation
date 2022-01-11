@@ -215,7 +215,6 @@ class AtoModel(QAbstractListModel):
     PackageRole = Qt.UserRole
 
     client_slots_changed = Signal()
-    packages_changed = Signal()
 
     def __init__(self, game_model: GameModel, ato: AirTaskingOrder) -> None:
         super().__init__()
@@ -267,8 +266,6 @@ class AtoModel(QAbstractListModel):
         self.endInsertRows()
         # noinspection PyUnresolvedReferences
         self.client_slots_changed.emit()
-        self.game.compute_conflicts_position()
-        self.packages_changed.emit()
 
     def delete_package_at_index(self, index: QModelIndex) -> None:
         """Removes the package at the given index from the ATO."""
@@ -288,8 +285,6 @@ class AtoModel(QAbstractListModel):
         self.endRemoveRows()
         # noinspection PyUnresolvedReferences
         self.client_slots_changed.emit()
-        self.game.compute_conflicts_position()
-        self.packages_changed.emit()
 
     def package_at_index(self, index: QModelIndex) -> Package:
         """Returns the package at the given index."""
