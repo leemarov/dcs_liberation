@@ -229,7 +229,7 @@ class AtoModel(QAbstractListModel):
         return self.game_model.game
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
-        return len(self.ato.packages)
+        return len(self.sorted_packages)
 
     def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
         if not index.isValid():
@@ -261,11 +261,11 @@ class AtoModel(QAbstractListModel):
 
     def add_package(self, package: Package) -> None:
         """Adds a package to the ATO."""
-        self._clear_cached_packages()
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self.ato.add_package(package)
         self.endInsertRows()
         # noinspection PyUnresolvedReferences
+        self._clear_cached_packages()
         self.client_slots_changed.emit()
         self.packages_changed.emit()
 
@@ -275,9 +275,8 @@ class AtoModel(QAbstractListModel):
 
     def delete_package(self, package: Package) -> None:
         """Removes the given package from the ATO."""
-        self._clear_cached_packages()
         self.package_models.release(package)
-        index = self.ato.packages.index(package)
+        index = self.sorted_packages.index(package)
         self.beginRemoveRows(QModelIndex(), index, index)
         self.ato.remove_package(package)
         for flight in package.flights:
@@ -286,12 +285,13 @@ class AtoModel(QAbstractListModel):
                 flight.cargo.transport = None
         self.endRemoveRows()
         # noinspection PyUnresolvedReferences
+        self._clear_cached_packages()
         self.client_slots_changed.emit()
         self.packages_changed.emit()
 
     def package_at_index(self, index: QModelIndex) -> Package:
         """Returns the package at the given index."""
-        return self.ato.packages[index.row()]
+        return self.sorted_packages[index.row()]
 
     def replace_from_game(self, player: bool) -> None:
         """Updates the ATO object to match the updated game object.

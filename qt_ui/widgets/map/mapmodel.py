@@ -1143,7 +1143,7 @@ class MapModel(QObject):
 
     def _flights_in_ato(self, ato: AirTaskingOrder, blue: bool) -> List[FlightJs]:
         flights = []
-        for p_idx, package in enumerate(ato.packages):
+        for p_idx, package in enumerate(self.game_model.ato_model.sorted_packages):
             for f_idx, flight in enumerate(package.flights):
                 flights.append(
                     FlightJs(
@@ -1156,7 +1156,7 @@ class MapModel(QObject):
         return flights
 
     def _get_selected_flight(self) -> Optional[Flight]:
-        for p_idx, package in enumerate(self.game.blue.ato.packages):
+        for p_idx, package in enumerate(self.game_model.ato_model.sorted_packages):
             for f_idx, flight in enumerate(package.flights):
                 if (p_idx, f_idx) == self._selected_flight_index:
                     return flight
