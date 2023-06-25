@@ -45,7 +45,9 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             self.package.target.position.x, self.package.target.position.y
         )
 
-        if barcap:
+        # if barcap:
+        # push everything up to TARCAP ranges
+        if False:
             # BARCAPs should remain far enough back from the enemy that their
             # commit range does not enter the enemy's threat zone. Include a 5nm
             # buffer.
