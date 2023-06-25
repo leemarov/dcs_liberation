@@ -309,6 +309,14 @@ class Settings:
         HQ_AUTOMATION_SECTION,
         default=True,
     )
+    auto_buy_reserve_amount: bool = bounded_int_option(
+        "Auto Buy money reserve buffer (millions)",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        HQ_AUTOMATION_SECTION,
+        default=0,
+        min=0,
+        max=1000,
+    )
     reserves_procurement_target: int = 10
 
     # Mission Generator
