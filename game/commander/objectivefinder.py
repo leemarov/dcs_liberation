@@ -149,6 +149,9 @@ class ObjectiveFinder:
             if isinstance(cp, OffMapSpawn):
                 # Off-map spawn locations don't need protection.
                 continue
+            if cp.get_carrier_group_type() is not None:
+                # do not frag barcaps for the carrier group
+                continue
             airfields_in_proximity = self.closest_airfields_to(cp)
             airfields_in_threat_range = (
                 airfields_in_proximity.operational_airfields_within(
