@@ -87,6 +87,9 @@ class ProcurementAi:
         return ground_unit_share
 
     def spend_budget(self, budget: float) -> float:
+        if self.is_player:
+            budget_buffer = self.game.settings.auto_buy_reserve_amount
+            budget -= budget_buffer
         if self.manage_runways:
             budget = self.repair_runways(budget)
         if self.manage_front_line:
@@ -96,6 +99,8 @@ class ProcurementAi:
 
         if self.manage_aircraft:
             budget = self.purchase_aircraft(budget)
+        if self.is_player:
+            budget += budget_buffer
         return budget
 
     def repair_runways(self, budget: float) -> float:
