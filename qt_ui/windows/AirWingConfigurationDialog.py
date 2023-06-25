@@ -270,6 +270,12 @@ class SquadronConfigurationBox(QGroupBox):
         self.parking_tracker.allocation_changed.connect(self.update_parking_label)
         left_column.addWidget(self.parking_label)
 
+        do_not_auto_assign_box = QHBoxLayout()
+        self.do_not_auto_assign_checkbox = QCheckBox()
+        do_not_auto_assign_box.addWidget(QLabel("Do not auto assign:"))
+        do_not_auto_assign_box.addWidget(self.do_not_auto_assign_checkbox)
+        left_column.addLayout(do_not_auto_assign_box)
+
         if not squadron.player and squadron.aircraft.flyable:
             player_label = QLabel("Player slots not available for opfor")
         elif not squadron.aircraft.flyable:

@@ -70,6 +70,20 @@ class AutoAssignedTaskControls(QVBoxLayout):
         super().__init__()
         self.squadron_model = squadron_model
 
+        do_not_auto_assign_hbox = QHBoxLayout()
+        self.do_not_auto_assign_checkbox = QCheckBox(text="Do not auto-assign:")
+        self.do_not_auto_assign_checkbox.setChecked(
+            self.squadron_model.get_do_not_auto_assign()
+        )
+
+        def aa_callback(checked: bool):
+            self.squadron_model.set_do_not_auto_assign(checked)
+
+        self.do_not_auto_assign_checkbox.toggled.connect(aa_callback)
+        # do_not_auto_assign_hbox.addWidget(QLabel("Do not auto-assign:"))
+        do_not_auto_assign_hbox.addWidget(self.do_not_auto_assign_checkbox)
+        self.addLayout(do_not_auto_assign_hbox)
+
         self.addWidget(QLabel("Auto-assignable mission types"))
 
         def make_callback(toggled_task: FlightType) -> Callable[[bool], None]:
