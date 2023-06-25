@@ -524,6 +524,12 @@ class SquadronModel(QAbstractListModel):
         else:
             self.squadron.auto_assignable_mission_types.remove(task)
 
+    def set_do_not_auto_assign(self, do_not_auto_assign: bool) -> None:
+        self.squadron.do_not_auto_assign = do_not_auto_assign
+
+    def get_do_not_auto_assign(self) -> bool:
+        return self.squadron.do_not_auto_assign
+
 
 class GameModel:
     """A model for the Game object.

@@ -55,6 +55,9 @@ class Squadron:
     coalition: Coalition = field(hash=False, compare=False)
     flight_db: Database[Flight] = field(hash=False, compare=False)
     settings: Settings = field(hash=False, compare=False)
+    do_not_auto_assign: bool = field(
+        init=False, hash=False, compare=False, default=False
+    )
 
     location: ControlPoint
     destination: Optional[ControlPoint] = field(
@@ -271,11 +274,15 @@ class Squadron:
         A squadron may be capable of performing a task even if it will not be
         automatically assigned to it.
         """
+        if self.is_auto_assign_disabled:
+            return False
         return task in self.auto_assignable_mission_types
 
     def can_auto_assign_mission(
         self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
     ) -> bool:
+        if self.is_auto_assign_disabled:
+            return False
         if not self.can_auto_assign(task):
             return False
         if this_turn and not self.can_fulfill_flight(size):
@@ -283,6 +290,10 @@ class Squadron:
 
         distance_to_target = meters(location.distance_to(self.location))
         return distance_to_target <= self.aircraft.max_mission_range
+
+    @property
+    def is_auto_assign_disabled(self) -> bool:
+        return self.do_not_auto_assign
 
     def operates_from(self, control_point: ControlPoint) -> bool:
         if not control_point.can_operate(self.aircraft):
