@@ -71,7 +71,7 @@ class AutoAssignedTaskControls(QVBoxLayout):
         self.squadron_model = squadron_model
 
         do_not_auto_assign_hbox = QHBoxLayout()
-        self.do_not_auto_assign_checkbox = QCheckBox(text="Do not auto-assign:")
+        self.do_not_auto_assign_checkbox = QCheckBox(text="Do not auto-assign")
         self.do_not_auto_assign_checkbox.setChecked(
             self.squadron_model.get_do_not_auto_assign()
         )

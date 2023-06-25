@@ -271,8 +271,12 @@ class SquadronConfigurationBox(QGroupBox):
         left_column.addWidget(self.parking_label)
 
         do_not_auto_assign_box = QHBoxLayout()
-        self.do_not_auto_assign_checkbox = QCheckBox()
-        do_not_auto_assign_box.addWidget(QLabel("Do not auto assign:"))
+        self.do_not_auto_assign_checkbox = QCheckBox(text="Do not auto-assign")
+
+        def do_not_auto_assign_callback(checked: bool):
+            self.squadron.do_not_auto_assign = checked
+
+        self.do_not_auto_assign_checkbox.toggled.connect(do_not_auto_assign_callback)
         do_not_auto_assign_box.addWidget(self.do_not_auto_assign_checkbox)
         left_column.addLayout(do_not_auto_assign_box)
 
