@@ -33,8 +33,8 @@ class ObjectiveFinder:
     """Identifies potential objectives for the mission planner."""
 
     # TODO: Merge into doctrine.
-    AIRFIELD_THREAT_RANGE = nautical_miles(150)
-    SAM_THREAT_RANGE = nautical_miles(100)
+    AIRFIELD_THREAT_RANGE = nautical_miles(80)
+    SAM_THREAT_RANGE = nautical_miles(70)
 
     def __init__(self, game: Game, is_player: bool) -> None:
         self.game = game
