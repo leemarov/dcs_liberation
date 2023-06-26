@@ -145,12 +145,12 @@ class ObjectiveFinder:
         Vulnerability is defined as any enemy CP within threat range of of the
         CP.
         """
+        coalition = self.game.coalition_for(self.is_player)
         for cp in self.friendly_control_points():
             if isinstance(cp, OffMapSpawn):
                 # Off-map spawn locations don't need protection.
                 continue
-            if cp.get_carrier_group_type() is not None:
-                # do not frag barcaps for the carrier group
+            if not coalition.autoplanner_cp_needs_barcap(cp):
                 continue
             airfields_in_proximity = self.closest_airfields_to(cp)
             airfields_in_threat_range = (

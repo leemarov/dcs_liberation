@@ -18,8 +18,10 @@ from game.profiling import MultiEventTracer, logged_duration
 from game.squadrons import AirWing
 from game.theater.bullseye import Bullseye
 from game.theater.transitnetwork import TransitNetwork, TransitNetworkBuilder
+from game.theater.controlpoint import ControlPoint
 from game.threatzones import ThreatZones
 from game.transfers import PendingTransfers
+from uuid import UUID
 
 if TYPE_CHECKING:
     from .campaignloader import CampaignAirWingConfig
@@ -45,6 +47,7 @@ class Coalition:
         self.air_wing = AirWing(player, game, self.faction)
         self.armed_forces = ArmedForces(self.faction)
         self.transfers = PendingTransfers(game, player)
+        self.cp_auto_planner_barcaps_enabled: dict[UUID, bool] = {}
 
         # Late initialized because the two coalitions in the game are mutually
         # dependent, so must be both constructed before this property can be set.
@@ -106,6 +109,9 @@ class Coalition:
 
     def on_load(self) -> None:
         self.faker = Faker(self.faction.locales)
+        self.cp_auto_planner_barcaps_enabled = getattr(
+            self, "cp_auto_planner_barcaps_enabled", {}
+        )
 
     def set_opponent(self, opponent: Coalition) -> None:
         if self._opponent is not None:
@@ -239,3 +245,11 @@ class Coalition:
 
     def add_procurement_request(self, request: AircraftProcurementRequest) -> None:
         self.procurement_requests.add(request)
+
+    def autoplanner_cp_needs_barcap(self, cp: ControlPoint) -> bool:
+        return self.cp_auto_planner_barcaps_enabled.get(cp.id, True)
+
+    def set_autoplanner_needs_barcap(
+        self, cp: ControlPoint, set_barcap_needed: bool
+    ) -> None:
+        self.cp_auto_planner_barcaps_enabled[cp.id] = set_barcap_needed

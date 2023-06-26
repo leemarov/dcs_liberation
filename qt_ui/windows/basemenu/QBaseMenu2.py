@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QVBoxLayout,
     QWidget,
+    QCheckBox,
 )
 
 from game import Game
@@ -96,6 +97,20 @@ class QBaseMenu2(QDialog):
             transfer_button.setProperty("style", "btn-success")
             bottom_row.addWidget(transfer_button)
             transfer_button.clicked.connect(self.open_transfer_dialog)
+
+        if self.cp.captured:
+            barcap_not_required_checkbox = QCheckBox(text="Do not autoplan BARCAPs")
+            barcap_not_required_checkbox.setChecked(
+                not cp.coalition.autoplanner_cp_needs_barcap(cp)
+            )
+            bottom_row.addWidget(barcap_not_required_checkbox)
+
+            def barcap_not_required_checkbox_toggled(toggled):
+                cp.coalition.set_autoplanner_needs_barcap(cp, not toggled)
+
+            barcap_not_required_checkbox.toggled.connect(
+                barcap_not_required_checkbox_toggled
+            )
 
         if self.cheat_capturable:
             capture_button = QPushButton("CHEAT: Capture")
