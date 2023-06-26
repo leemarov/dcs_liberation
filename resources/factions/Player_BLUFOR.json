@@ -1,0 +1,175 @@
+{
+  "country": "Combined Joint Task Forces Blue",
+  "name": "Player BLUFOR",
+  "authors": "Bangoe",
+  "description": "<p>A selection of different flyable BLUFOR aircraft.</p>",
+  "locales": [
+    "en_US"
+  ],
+  "aircrafts": [
+    "A-10C Thunderbolt II (Suite 7)",
+    "AH-1W SuperCobra",
+    "AH-64D Apache Longbow",
+    "AJS-37 Viggen",
+    "AV-8B Harrier II Night Attack",
+    "B-1B Lancer",
+    "B-52H Stratofortress",
+    "C-130",
+    "F-14B Tomcat",
+    "F-15C Eagle",
+    "F-15E Strike Eagle",
+    "F-16CM Fighting Falcon (Block 50)",
+    "F/A-18C Hornet (Lot 20)",
+    "Mirage 2000C",
+    "S-3B Viking",
+    "Su-25T Frogfoot",
+    "UH-1H Iroquois",
+    "UH-60A",
+    "Tornado IDS"
+  ],
+  "awacs": [
+    "E-2C Hawkeye",
+    "E-3A"
+  ],
+  "tankers": [
+    "KC-130",
+    "KC-135 Stratotanker",
+    "KC-135 Stratotanker MPRS",
+    "S-3B Tanker"
+  ],
+  "frontline_units": [
+    "LAV-25",
+    "M1043 HMMWV (M2 HMG)",
+    "M1045 HMMWV (BGM-71 TOW)",
+    "M1097 Heavy HMMWV Avenger",
+    "M163 Vulcan Air Defense System",
+    "M1126 Stryker ICV (M2 HMG)",
+    "M1128 Stryker Mobile Gun System",
+    "M1134 Stryker ATGM (BGM-71 TOW)",
+    "M1A2 Abrams",
+    "M2A2 Bradley",
+    "M6 Linebacker"
+  ],
+  "artillery_units": [
+    "M109A6 Paladin",
+    "M270 Multiple Launch Rocket System"
+  ],
+  "logistics_units": [
+    "Truck M818 6x6"
+  ],
+  "infantry_units": [
+    "Infantry M249",
+    "Infantry M4",
+    "MANPADS Stinger"
+  ],
+  "preset_groups": [
+    "Hawk",
+    "Patriot",
+    "NASAMS AIM-120C"
+  ],
+  "naval_units": [
+    "FFG Oliver Hazard Perry",
+    "DDG Arleigh Burke IIa",
+    "CG Ticonderoga",
+    "LHA-1 Tarawa",
+    "CVN-74 John C. Stennis"
+  ],
+  "missiles": [],
+  "air_defense_units": [
+    "SAM Hawk SR (AN/MPQ-50)",
+    "M163 Vulcan Air Defense System",
+    "M48 Chaparral",
+    "M1097 Heavy HMMWV Avenger"
+  ],
+  "requirements": {},
+  "carrier_names": [
+    "CVN-74 John C. Stennis"
+  ],    
+  "helicopter_carrier_names": [
+    "LHA-1 Tarawa"
+  ],
+  "has_jtac": true,
+  "jtac_unit": "MQ-9 Reaper",
+  "doctrine": "modern",
+  "unrestricted_satnav": true,
+  "liveries_overrides": {
+    "A-10C Thunderbolt II (Suite 7)": [
+        "74th fs moody afb, georgia (ft)"
+    ],
+    "AH-1W SuperCobra": [
+        "Marines"
+    ],
+    "AH-64D Apache Longbow": [
+        "Ghostriders, 1-151st ATKHB SCNG - Gray TADS"
+    ],
+    "AJS-37 Viggen": [
+        "SE-DXN by Mach3DS"
+    ],
+    "AV-8B Harrier II Night Attack": [
+        "VMA-223D"
+    ],
+    "B-1B Lancer": [
+        "usaf standard"
+    ],
+    "B-52H Stratofortress": [
+        "usaf standard"
+    ],
+    "C-130": [
+        "US Air Force"
+    ],
+    "CH-47D": [
+        "standard"
+    ],
+    "F-14B Tomcat": [
+        "VF-103 Sluggers 207 (1991)"
+    ],
+    "F-15C Eagle": [
+        "390th Fighter SQN"
+    ],
+    "F-15E Strike Eagle": [
+        "492d Fighter SQN (LN)"
+    ],
+    "F-16CM Fighting Falcon (Block 50)": [
+        "80th Fighter Squadron, Kunsan AFB"
+    ],
+    "F/A-18C Hornet (Lot 20)": [
+        "VFA-106"
+    ],
+    "Mirage 2000C": [
+        "Fuerza Aerea Peruana 064"
+    ],
+    "S-3B Viking": [
+        "NAVY Bloodhound"
+    ],
+    "Su-25T Frogfoot": [
+        "Algerian AF Grey KU-01"
+    ],
+    "UH-1H Iroquois": [
+        "US NAVY"
+    ],
+    "UH-60A": [
+        "standard"
+    ],
+    "Tornado IDS": [
+        "jagdbombergeschwader 32 lechfeld ab luftwaffe"
+    ],
+    "E-2C Hawkeye": [
+        "VAW-125 Tigertails"
+    ],
+    "E-3A": [
+        "usaf standard"
+    ],
+    "KC-130": [
+        "Default"
+    ],
+    "KC-135 Stratotanker": [
+        "USAF Standard"
+    ],
+    "KC-135 Stratotanker MPRS": [
+        "22nd ARW"
+    ],
+    "S-3B Tanker": [
+        "NAVY Standard"
+    ]
+  }
+}
