@@ -1,0 +1,72 @@
+---
+country: Combined Joint Task Forces Red
+name: Opponent REDFOR
+authors: Bangoe
+description: <p>Modern REDFOR forces.</p>
+locales:
+  - ru_RU
+aircrafts:
+  - IL-76MD
+  - Mi-24V Hind-E
+  - Mi-8MTV2 Hip
+  - MiG-23MLD Flogger-K
+  - MiG-25PD Foxbat-E
+  - MiG-29A Fulcrum-A
+  - Su-24M Fencer-D
+  - Su-25T Frogfoot
+  - Su-27 Flanker-B
+  - Tu-22M3 Backfire-C
+awacs:
+  - A-50
+frontline_units:
+  - BMP-1
+  - BMP-2
+  - BTR-80
+  - SA-13 Gopher (9K35 Strela-10M3)
+  - T-72B with Kontakt-1 ERA
+  - T-80UD
+artillery_units:
+  - 2S19 Msta-S
+  - BM-27 Uragan
+logistics_units:
+  - LUV UAZ-469 Jeep
+  - Truck Ural-375
+infantry_units:
+  - Infantry AK-74 Rus
+  - MANPADS SA-18 Igla-S "Grouse"
+  - Mortar 2B11 120mm
+  - Paratrooper AKS
+  - Paratrooper RPG-16
+missiles: []
+preset_groups:
+  - Cold-War-Flak
+  - SA-2/S-75
+  - SA-2/S-75 V-759/5V23
+  - SA-3/S-125
+  - SA-3/S-125 V-601P/5V27
+  - SA-6
+  - SA-11
+  - SA-10/S-300PS
+  - Silkworm
+# - Russian Navy
+naval_units:
+  - Frigate 1135M Rezky
+  - Corvette 1241.1 Molniya
+air_defense_units:
+  - EWR 1L13
+  - EWR 55G6
+  - SAM SA-5 S-200 ST-68U "Tin Shield" SR
+  - SAM SA-8 Osa "Gecko" TEL
+  - SA-9 Strela
+  - SA-13 Gopher (9K35 Strela-10M3)
+  - SA-19 Grison (2K22 Tunguska)
+  - AAA ZU-23 Closed Emplacement
+  - ZU-23 on Ural-375
+  - ZSU-23-4 Shilka
+helicopter_carrier_names: []
+# missiles:
+#  - SSM SS-1C Scud-B
+carrier_names: []
+requirements: {}
+has_jtac: true
+jtac_unit: MQ-9 Reaper
