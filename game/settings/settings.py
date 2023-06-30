@@ -309,7 +309,7 @@ class Settings:
         HQ_AUTOMATION_SECTION,
         default=True,
     )
-    auto_buy_reserve_amount: bool = bounded_int_option(
+    auto_buy_reserve_amount: int = bounded_int_option(
         "Auto Buy money reserve buffer (millions)",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,

@@ -45,31 +45,33 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             self.package.target.position.x, self.package.target.position.y
         )
 
-        # if barcap:
         # push everything up to TARCAP ranges
-        if False:
-            # BARCAPs should remain far enough back from the enemy that their
-            # commit range does not enter the enemy's threat zone. Include a 5nm
-            # buffer.
-            distance_to_no_fly = (
-                meters(position.distance(self.threat_zones.all))
-                - self.doctrine.cap_engagement_range
-                - nautical_miles(5)
+        # if barcap:
+        #    # BARCAPs should remain far enough back from the enemy that their
+        #    # commit range does not enter the enemy's threat zone. Include a 5nm
+        #    # buffer.
+        #    distance_to_no_fly = (
+        #        meters(position.distance(self.threat_zones.all))
+        #        - self.doctrine.cap_engagement_range
+        #        - nautical_miles(5)
+        #    )
+        #    max_track_length = self.doctrine.cap_max_track_length
+        #else:
+        # Other race tracks (TARCAPs, currently) just try to keep some
+        # distance from the nearest enemy airbase, but since they are by
+        # definition in enemy territory they can't avoid the threat zone
+        # without being useless.
+        min_distance_from_enemy = nautical_miles(20)
+        distance_to_airfield = meters(
+            closest_airfield.position.distance_to_point(
+                self.package.target.position
             )
+        )
+        distance_to_no_fly = distance_to_airfield - min_distance_from_enemy
+        
+        if barcap:
             max_track_length = self.doctrine.cap_max_track_length
         else:
-            # Other race tracks (TARCAPs, currently) just try to keep some
-            # distance from the nearest enemy airbase, but since they are by
-            # definition in enemy territory they can't avoid the threat zone
-            # without being useless.
-            min_distance_from_enemy = nautical_miles(20)
-            distance_to_airfield = meters(
-                closest_airfield.position.distance_to_point(
-                    self.package.target.position
-                )
-            )
-            distance_to_no_fly = distance_to_airfield - min_distance_from_enemy
-
             # TARCAPs fly short racetracks because they need to react faster.
             max_track_length = self.doctrine.cap_min_track_length + 0.3 * (
                 self.doctrine.cap_max_track_length - self.doctrine.cap_min_track_length
