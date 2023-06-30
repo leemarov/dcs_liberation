@@ -56,19 +56,17 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         #        - nautical_miles(5)
         #    )
         #    max_track_length = self.doctrine.cap_max_track_length
-        #else:
+        # else:
         # Other race tracks (TARCAPs, currently) just try to keep some
         # distance from the nearest enemy airbase, but since they are by
         # definition in enemy territory they can't avoid the threat zone
         # without being useless.
         min_distance_from_enemy = nautical_miles(20)
         distance_to_airfield = meters(
-            closest_airfield.position.distance_to_point(
-                self.package.target.position
-            )
+            closest_airfield.position.distance_to_point(self.package.target.position)
         )
         distance_to_no_fly = distance_to_airfield - min_distance_from_enemy
-        
+
         if barcap:
             max_track_length = self.doctrine.cap_max_track_length
         else:
